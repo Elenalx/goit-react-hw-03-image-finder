@@ -19,19 +19,22 @@ export class App extends Component {
     loading: false,
     data: null,
     page: 1,
-    isModalOpen: false,
+     isModalOpen: false,
+     currenPreview: '',
     totalImage: 0,
   };
 
 
   componentDidUpdate(_, prevState) {
-    if (prevState.searchText !== this.state.searchText ||
-      this.state.page !== prevState.page
+    const { searchText, page } = this.state;
+    if (
+      prevState.searchText !== searchText ||
+      prevState.page !== page
     ) {
       this.setState({ loading: true });
       
       galleryApi(this.state.searchText, this.state.page)
-        .then(responce => responce.json())
+        .then(response => response.json())
         .then(data => {
         if (!data.total) {
            Notiflix.Notify.failure(
@@ -40,12 +43,12 @@ export class App extends Component {
         }
         
       const hits = data.hits;
-          this.buttonTogle(hits.length);
+      this.buttonTogle(hits.length);
           
           
-          this.setState(prevState => ({
-            img: [...prevState.img , ...data.hits ],
-            totalImage:data.total,
+      this.setState(prevState => ({
+        img: [...prevState.img , ...data.hits ],
+        totalImage:data.total,
           }));
 
           console.log(this.state.img);
@@ -59,7 +62,29 @@ export class App extends Component {
     }
   }
     
+  openModal = url => {
+    this.setState({ currenPreview: url,
+    isModal:true,
+    });
+  };
 
+modalClose = () => {
+  this.setState({isModal:false})
+}
+
+
+  onLoadMore = () => {
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+    }));
+  };
+
+  buttonTogle = length => {
+    if (length >= 12) {
+      return this.setState({ buttonTogle: true });
+    }
+    return this.setState({ buttonTogle: false });
+  };
 
    handleSearch = searchText => {
     this.setState({ searchText, images: [], page: 1 });
@@ -67,11 +92,18 @@ export class App extends Component {
 
 
    render() {
-       const { handleSearch } = this;
+      //  const { handleSearch } = this;
     const { loading, buttonTogle,isModal,currenPreview,img,totalImage } = this.state;
     return (
-      <>
-        <Searchbar handleSearch={handleSearch} />
+       <div style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        color: '#010101',
+        backgroundColor: "rgb(231, 236, 242)",
+      }}>
+        <Searchbar handleSearch={this.handleSearch} />
        
         {img.length !== 0  && (<ImageGallery data={img} onImageClick={this.openModal}  />)}
 
@@ -80,7 +112,7 @@ export class App extends Component {
         { isModal && (
         <Modal onModalClose={this.modalClose}  image={currenPreview}/>
         )}
-      </>
+      </div>
     );
   }
 }
