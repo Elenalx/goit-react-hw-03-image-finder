@@ -6,10 +6,10 @@ import Searchbar from './Searchbar/Searchbar';
 import Loader from './Loader/Loader';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
-import Modal from './Modal/Modal';
+import { Modal } from './Modal/Modal';
 import { galleryApi } from 'services/gallery-api';
 
-// import css from './app.module.css';
+import css from './app-module.css';
 
 
 export class App extends Component {
@@ -96,14 +96,8 @@ modalClose = () => {
        const { handleSearch } = this;
        const { loading, buttonTogle,isModalOpen,currenPreview,img,totalImage } = this.state;
     return (
-       <div style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        color: '#010101',
-        backgroundColor: "rgb(231, 236, 242)",
-      }}>
+      <div classname={css.app} 
+      >
         <Searchbar handleSearch={handleSearch} />
        
         {img.length !== 0  && (<ImageGallery data={img} onImageClick={this.openModal}  />)}
