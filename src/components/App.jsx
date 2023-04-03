@@ -1,16 +1,88 @@
-export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
-    </div>
-  );
-};
+import { Component } from 'react';
+import Notiflix from 'notiflix';
+
+import Searchbar from './Searchbar/Searchbar';
+
+import Loader from './Loader/Loader';
+import ImageGallery from './ImageGallery/ImageGallery';
+import Button from'./Button/Button';
+import Modal from './Modal/Modal';
+import { galleryApi } from 'services/gallery-api';
+
+// import css from './app.module.css';
+
+
+export class App extends Component {
+   state = {
+    searchText: '',
+    images: [],
+    loading: false,
+    data: null,
+    page: 1,
+    isModalOpen: false,
+    totalImage: 0,
+  };
+
+
+  componentDidUpdate(_, prevState) {
+    if (prevState.searchText !== this.state.searchText ||
+      this.state.page !== prevState.page
+    ) {
+      this.setState({ loading: true });
+      
+      galleryApi(this.state.searchText, this.state.page)
+        .then(responce => responce.json())
+        .then(data => {
+        if (!data.total) {
+           Notiflix.Notify.failure(
+              'Sorry, but nothing was found for your search'
+            );
+        }
+        
+      const hits = data.hits;
+          this.buttonTogle(hits.length);
+          
+          
+          this.setState(prevState => ({
+            img: [...prevState.img , ...data.hits ],
+            totalImage:data.total,
+          }));
+
+          console.log(this.state.img);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => {
+          this.setState({ loading: false });
+        });
+    }
+  }
+    
+
+
+   handleSearch = searchText => {
+    this.setState({ searchText, images: [], page: 1 });
+  };
+
+
+   render() {
+       const { handleSearch } = this;
+    const { loading, buttonTogle,isModal,currenPreview,img,totalImage } = this.state;
+    return (
+      <>
+        <Searchbar handleSearch={handleSearch} />
+       
+        {img.length !== 0  && (<ImageGallery data={img} onImageClick={this.openModal}  />)}
+
+        {loading && <Loader />}
+        {img.length !== totalImage && buttonTogle && <Button onLoadMore={this.onLoadMore} />}
+        { isModal && (
+        <Modal onModalClose={this.modalClose}  image={currenPreview}/>
+        )}
+      </>
+    );
+  }
+}
+
+export default App;
