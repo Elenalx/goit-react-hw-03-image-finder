@@ -28,7 +28,7 @@ class Searchbar extends Component {
             <header className={css.searchBar}>
                 <form className={css.searchForm} onSubmit={this.handleSubmit}>
                     <button type="submit" className={css.button}>
-                        <span class="button-label">Search</span>
+                        <span className="button-label">Search</span>
                     </button>
 
                     <input
@@ -36,8 +36,8 @@ class Searchbar extends Component {
                         className={css.input}
                         type="text"
                         value={value}
-                        autocomplete="off"
-                        autofocus
+                        autoComplete="off"
+                        autoFocus
                         placeholder="Search images and photos"
                         onChange={this.handleChange}
                     />

@@ -4,8 +4,8 @@ import Notiflix from 'notiflix';
 import Searchbar from './Searchbar/Searchbar';
 
 import Loader from './Loader/Loader';
-import ImageGallery from './ImageGallery/ImageGallery';
-import Button from'./Button/Button';
+import { ImageGallery } from './ImageGallery/ImageGallery';
+import { Button } from './Button/Button';
 import Modal from './Modal/Modal';
 import { galleryApi } from 'services/gallery-api';
 
@@ -15,13 +15,14 @@ import { galleryApi } from 'services/gallery-api';
 export class App extends Component {
    state = {
     searchText: '',
-    images: [],
+    img: [],
     loading: false,
     data: null,
     page: 1,
-     isModalOpen: false,
-     currenPreview: '',
-    totalImage: 0,
+    isModalOpen: false,
+    currenPreview: '',
+     totalImage: 0,
+    buttonTogle: false,
   };
 
 
@@ -33,7 +34,7 @@ export class App extends Component {
     ) {
       this.setState({ loading: true });
       
-      galleryApi(this.state.searchText, this.state.page)
+      galleryApi(searchText, page)
         .then(response => response.json())
         .then(data => {
         if (!data.total) {
@@ -69,7 +70,7 @@ export class App extends Component {
   };
 
 modalClose = () => {
-  this.setState({isModal:false})
+  this.setState({isModalOpen:false})
 }
 
 
@@ -87,13 +88,13 @@ modalClose = () => {
   };
 
    handleSearch = searchText => {
-    this.setState({ searchText, images: [], page: 1 });
+    this.setState({ searchText, img: [], page: 1 });
   };
 
 
    render() {
-      //  const { handleSearch } = this;
-    const { loading, buttonTogle,isModal,currenPreview,img,totalImage } = this.state;
+       const { handleSearch } = this;
+       const { loading, buttonTogle,isModalOpen,currenPreview,img,totalImage } = this.state;
     return (
        <div style={{
         minHeight: "100vh",
@@ -103,18 +104,17 @@ modalClose = () => {
         color: '#010101',
         backgroundColor: "rgb(231, 236, 242)",
       }}>
-        <Searchbar handleSearch={this.handleSearch} />
+        <Searchbar handleSearch={handleSearch} />
        
         {img.length !== 0  && (<ImageGallery data={img} onImageClick={this.openModal}  />)}
 
         {loading && <Loader />}
-        {img.length !== totalImage && buttonTogle && <Button onLoadMore={this.onLoadMore} />}
-        { isModal && (
-        <Modal onModalClose={this.modalClose}  image={currenPreview}/>
+        {img.length !== totalImage && buttonTogle && <Button onClick={this.onLoadMore} />}
+        { isModalOpen && (
+        <Modal onModalClose={this.modalClose}  img={currenPreview}/>
         )}
       </div>
     );
   }
 }
-
 export default App;
