@@ -13,7 +13,7 @@ class Searchbar extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.handleSearch(this.state.value);
+    this.props.onSubmit(this.state.value);
     this.reset();
   };
 
@@ -52,5 +52,5 @@ class Searchbar extends Component {
 export default Searchbar;
 
 Searchbar.propTypes = {
-    handleSearch:PropTypes.func.isRequired,
+    onSubmit:PropTypes.func.isRequired,
 }
