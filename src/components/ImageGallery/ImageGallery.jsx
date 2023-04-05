@@ -1,23 +1,15 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 import css from './image-gallery.module.css';
+
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 
-export const ImageGallery = ({ items }) => {
+
+export const ImageGallery = ({ data,onImageClick }) => {
   return (
     <ul className={css.imageGallery}>
-      {items.map(({ id, tags, webformatURL, largeImageURL }) => (
-        <ImageGalleryItem
-          tags={tags}
-          key={id}
-          webformatURL={webformatURL}
-          largeImageURL={largeImageURL}
-        />
+      {data.map(({ id, webformatURL,largeImageURL }) => (
+        <ImageGalleryItem key={id} webformatURL={webformatURL} largeImageURL={largeImageURL} openModal={onImageClick}  />
       ))}
     </ul>
   );
 };
-
-
-ImageGallery.propType = {
-    items: PropTypes.array.isRequired,
-}
