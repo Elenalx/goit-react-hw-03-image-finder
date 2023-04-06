@@ -29,10 +29,13 @@ class Searchbar extends Component {
       <header className={css.searchbar}>
         <form className={css.saerchForm} onSubmit={this.handleSubmit}>
           <button type="submit" className={css.buttonValue}>
-            <span style={{marginRight:8, width:"20", height:"20"}}>Search</span>
+            <span style={{ marginRight: 8, width: '20', height: '20' }}>
+              Search
+            </span>
           </button>
 
-          <input className={css.inputValue}
+          <input
+            className={css.inputValue}
             type="text"
             autoComplete="off"
             autoFocus
@@ -49,5 +52,5 @@ class Searchbar extends Component {
 export default Searchbar;
 
 Searchbar.propTypes = {
-  handleSearch:PropTypes.func.isRequired,
-}
+  handleSearch: PropTypes.func.isRequired,
+};
