@@ -38,3 +38,4 @@ Modal.propTypes = {
   image: PropTypes.string.isRequired,
   onModalClose: PropTypes.func.isRequired,
 };
+
