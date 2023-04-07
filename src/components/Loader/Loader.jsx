@@ -1,10 +1,11 @@
+
 import React from 'react';
 import { Audio } from 'react-loader-spinner';
 import css from './loader.module.css';
 
 export const Loader = () => {
   return (
-    <div className={css.loader}>
+    <div className={css.loader} >
       <Audio
         height="80"
         width="80"
