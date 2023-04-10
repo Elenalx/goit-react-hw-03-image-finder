@@ -1,6 +1,5 @@
-// import { Component } from 'react';
 import React, { Component } from 'react';
-// import { InputValue, FormValue, ButtonValue } from './searchbar.styled';
+
 import PropTypes from 'prop-types';
 import css from './search-bar.module.css';
 

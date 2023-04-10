@@ -22,7 +22,7 @@ export class App extends Component {
     buttonTogle: false,
     data: null,
     isModal: false,
-    currenPreview: '',
+    currenPreview: null,
     totalImage : 0,
   };
 
@@ -31,7 +31,7 @@ export class App extends Component {
       prevState.searchText !== this.state.searchText ||
       this.state.page !== prevState.page
     ) {
-      this.setState({ isLoading: true });
+      this.setState({ isLoading: true});
 
       galleryApi(this.state.searchText, this.state.page)
         .then(response => response.json())
