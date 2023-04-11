@@ -87,7 +87,7 @@ modalClose = () => {
   };
 
   handleSearch = searchText => {
-    this.setState({ searchText, img:[],pag:1 });
+    this.setState({ searchText, img:[], page:1 });
   };
 
   render() {
@@ -100,7 +100,7 @@ modalClose = () => {
         {img.length !== 0 && (<ImageGallery data={img} onImageClick={this.openModal} />)}
         
         {isLoading && <Loader />}
-        {img.length !== totalImage && buttonTogle && <Button onClick={this.onLoadMore} />}
+        {img.length !== totalImage && buttonTogle && !isLoading && <Button onClick={this.onLoadMore} />}
         { isModal && (
         <Modal onModalClose={this.modalClose}  image={currenPreview}/>
         )}
